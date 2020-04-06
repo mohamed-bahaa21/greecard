@@ -7,7 +7,7 @@ const flash = require("connect-flash");
 const multer = require("multer");
 const Jimp = require("jimp");
 const storage = multer.diskStorage({
-  destination: "/public/imgs/uploads/",
+  destination: "./public/imgs/uploads/",
   filename: function(req, file, cb) {
     cb(
       null,
@@ -23,12 +23,15 @@ const upload = multer({
   }
 }).single("img");
 function checkFileType(file, cb) {
-  const fileTypes = /jpeg|jpg|png|gif/;
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimeType = fileTypes.test(file.mimeType)
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
 
-  if(mimeType && extname){
-    return cb(null, true);
+  if(mimetype && extname){
+    return cb(null,true);
   } else {
     cb('Error: Images Only!');
   }
@@ -67,7 +70,7 @@ app.post("/", (req, res) => {
       req.flash("info", "not successfull");
       res.redirect("/");
     } else {
-      res.sendFile(req.file);
+      res.send(req.file);
     }
   });
 });
