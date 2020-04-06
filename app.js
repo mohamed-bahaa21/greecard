@@ -30,10 +30,10 @@ function checkFileType(file, cb) {
   // Check mime
   const mimetype = filetypes.test(file.mimetype);
 
-  if(mimetype && extname){
-    return cb(null,true);
+  if (mimetype && extname) {
+    return cb(null, true);
   } else {
-    cb('Error: Images Only!');
+    cb("Error: Images Only!");
   }
 }
 
@@ -65,12 +65,34 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
+  
   upload(req, res, err => {
     if (err) {
       req.flash("info", "not successfull");
       res.redirect("/");
     } else {
-      res.send(req.file);
+
+      var imgPath = req.file.path;
+      var imgCaption = req.body.name;
+      var loadedImage;
+
+      Jimp.read(imgPath)
+        .then(function(image) {
+          loadedImage = image;
+          return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+        })
+        .then(function(font) {
+          loadedImage.print(font, 10, 10, imgCaption).write(loadedImage);
+
+          req.flash("info", "wrote success");
+          res.redirect("/");
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
+
+      req.flash("info", "successfull");
+      res.redirect("/");
     }
   });
 });
