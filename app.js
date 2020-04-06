@@ -6,7 +6,33 @@ const flash = require("connect-flash");
 
 const multer = require("multer");
 const Jimp = require("jimp");
-const upload = multer({ dest: __dirname + "/public/imgs/uploads/" });
+const storage = multer.diskStorage({
+  destination: "/public/imgs/uploads/",
+  filename: function(req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  }
+});
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 },
+  fileFilter: function(req, file, cb) {
+    checkFileType(file, cb);
+  }
+}).single("img");
+function checkFileType(file, cb) {
+  const fileTypes = /jpeg|jpg|png|gif/;
+  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimeType = fileTypes.test(file.mimeType)
+
+  if(mimeType && extname){
+    return cb(null, true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
 
 const app = express();
 
@@ -35,9 +61,15 @@ app.get("/", (req, res) => {
   res.render("index", { msg: req.flash("info") });
 });
 
-app.post("/", upload.single("img"), (req, res) => {
-    res.json(req.file);
-
+app.post("/", (req, res) => {
+  upload(req, res, err => {
+    if (err) {
+      req.flash("info", "not successfull");
+      res.redirect("/");
+    } else {
+      res.sendFile(req.file);
+    }
+  });
 });
 
 // app.get("/write", (req, res) => {

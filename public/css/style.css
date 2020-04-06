@@ -2,17 +2,23 @@
   border-radius: 3px;
 }
 body {
+  box-sizing: border-box;
   font-family: sans-serif;
   margin: 0 auto;
   padding: 15px;
   display: flex;
   color: #3a3a3a;
+  background: linear-gradient(25deg, #ccc, #ddd);
 }
 
 div {
+  background-color: #fff;
+  box-shadow: #3a3a3a -15px 15px 25px -17px;
   border: 3px solid #7c7c7c;
   padding: 2em;
   margin: auto;
+}
+.container {
 }
 
 input {
