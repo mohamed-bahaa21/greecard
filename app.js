@@ -88,11 +88,21 @@ app.post("/", (req, res) => {
           return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
         })
         .then(function (font) {
+          // var measureTextWidth = Jimp.measureTextWidth(font, imgCaption, 100);
+          // var measureTextHeight = Jimp.measureTextHeight(font, imgCaption, 100);
+
+          var textWidth = Jimp.measureText(font, imgCaption);
+          var textHeight = Jimp.measureTextHeight(font, imgCaption);
+
           console.log({
             width: loadedImage.bitmap.width,
-            height: loadedImage.bitmap.height
+            height: loadedImage.bitmap.height,
+            textWidth, textHeight
           });
-          loadedImage.print(font, (loadedImage.bitmap.width / 2), (loadedImage.bitmap.height / 2), imgCaption).write(imgPath);
+
+          loadedImage.print(font,
+            ((loadedImage.bitmap.width / 2) - (textWidth / 2)),
+            ((loadedImage.bitmap.height / 2) - (textHeight / 2)), imgCaption).write(imgPath);
         })
         .catch(function (err) {
           console.error(err);
