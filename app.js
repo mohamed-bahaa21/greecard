@@ -65,7 +65,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  
+
   upload(req, res, err => {
     if (err) {
       req.flash("info", "not successfull");
@@ -77,17 +77,18 @@ app.post("/", (req, res) => {
       var loadedImage;
 
       Jimp.read(imgPath)
-        .then(function(image) {
+        .then(function (image) {
           loadedImage = image;
           return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
         })
-        .then(function(font) {
-          loadedImage.print(font, 10, 10, imgCaption).write(loadedImage);
-
-          req.flash("info", "wrote success");
-          res.redirect("/");
+        .then(function (font) {
+          console.log({
+            width: loadedImage.bitmap.width,
+            height: loadedImage.bitmap.height
+          });
+          loadedImage.print(font, (loadedImage.bitmap.width / 2), (loadedImage.bitmap.height / 2), imgCaption).write(imgPath);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.error(err);
         });
 
