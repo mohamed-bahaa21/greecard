@@ -1,59 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Write on Image</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Write on Image</h1>
 
-      <h3><%= msg %></h3>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Write on Image</title>
+</head>
 
-      <form action="/" method="post" enctype="multipart/form-data">
-        <input type="file" accept="image/*" name="img" id="img" required/>
-        <br /><br />
-        <label for="name">Enter Name</label>
-        <input type="text" name="name" id="name" required/>
-        <br /><br />
-        <input type="submit" value="Submit" />
-      </form>
+<body>
+  <div class="container">
+    <h1>Write on Image</h1>
 
-      <div class="image-preview" id="imagePreview">
-        <img src="" alt="Image Preview" class="image-preview__image" />
-        <span class="image-preview__default-text">Image Preview</span>
-      </div>
+    <h3>
+      <%= msg %>
+    </h3>
 
-      <br />
-      <!-- <a href="/write">Write img</a> -->
+    <form action="/" method="post" enctype="multipart/form-data">
+      <input type="file" accept="image/*" name="img" id="img" required />
+      <br /><br />
+      <label for="name">Enter Name</label>
+      <input type="text" name="name" id="name" required />
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <div class="image-preview" id="imagePreview">
+      <img src="" alt="Image Preview" class="image-preview__image" />
+      <span style="position: absolute; color: black;" class="image-name__default-text">Card Name</span>
+      <span class="image-preview__default-text">Image Preview</span>
     </div>
 
-    <script>
-      const inpImg = document.getElementById("img");
-      const previewCont = document.getElementById("imagePreview");
-      const previewImg = document.querySelector(".image-preview__image");
-      const previewDefaultText = previewCont.querySelector(".image-preview__default-text");
+    <br />
+    <!-- <a href="/write">Write img</a> -->
+  </div>
 
-      inpImg.addEventListener("change", function() {
-        const file = this.files[0];
-        if(file) {
-          const reader = new FileReader();
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-          previewDefaultText.style.display = 'none';
-          previewImg.style.display = 'block';
+  <script>
+    const inpImg = document.getElementById("img");
+    const previewCont = document.getElementById("imagePreview");
+    const previewImg = document.querySelector(".image-preview__image");
+    const previewDefaultText = previewCont.querySelector(".image-preview__default-text");
+    var nameDefaultText = previewCont.querySelector(".image-name__default-text");
+    nameDefaultText.style.display = 'none';
 
-          reader.addEventListener("load", function() {
-            previewImg.setAttribute("src", this.result);
-          });
-          reader.readAsDataURL(file);
-        } else {
-          previewDefaultText.style.display = null;
-          previewImg.style.display = null;
-          previewImg.setAttribute("src", "");
-        }
-      });
-    </script>
-  </body>
+    inpImg.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+
+        previewDefaultText.style.display = 'none';
+        nameDefaultText.style.display = 'block';
+        previewImg.style.display = 'block';
+
+        reader.addEventListener("load", function () {
+          previewImg.setAttribute("src", this.result);
+        });
+        reader.readAsDataURL(file);
+      } else {
+        previewDefaultText.style.display = null;
+        nameDefaultText.style.display = 'block';
+        previewImg.style.display = null;
+        previewImg.setAttribute("src", "");
+      }
+    });
+  </script>
+
+  <script>
+    $("#name").on("input", function () {
+      nameDefaultText.innerHTML = $(this).val();
+    });
+  </script>
+</body>
+
 </html>
