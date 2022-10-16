@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
     );
   }
 });
+
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
@@ -26,6 +27,7 @@ const upload = multer({
     checkFileType(file, cb);
   }
 }).single("img");
+
 function checkFileType(file, cb) {
   // Allowed ext
   const filetypes = /jpeg|jpg|png|gif/;
@@ -101,32 +103,5 @@ app.post("/", (req, res) => {
     }
   });
 });
-
-// app.get("/write", (req, res) => {
-// const { img, name } = req.body;
-// res.send(img);
-
-// var imgPath = "public/imgs/design.jpeg";
-// var imgCaption = name;
-// var loadedImage;
-
-// Jimp.read(imgPath)
-//   .then(function(image) {
-//     loadedImage = image;
-//     return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
-//   })
-//   .then(function(font) {
-//     loadedImage.print(font, 10, 10, imgCaption).write(loadedImage);
-
-//     req.flash("info", "wrote success");
-//     res.redirect("/");
-//   })
-//   .catch(function(err) {
-//     console.error(err);
-//   });
-
-// req.flash("info", "wrote not success");
-// res.redirect("/");
-// });
 
 app.listen(3000, console.log("Server: 3000"));
