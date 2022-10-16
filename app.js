@@ -79,6 +79,7 @@ app.post("/", (req, res) => {
     } else {
 
       var imgPath = req.file.path;
+      // var imgPath = path.basename();
       var imgCaption = req.body.name;
       var loadedImage;
 

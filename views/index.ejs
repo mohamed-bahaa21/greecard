@@ -4,25 +4,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/style.css">
-  <title>Write on Image</title>
+  <!-- <link rel="stylesheet" href="/css/style.css"> -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/new.css">
+  <link rel="stylesheet" href="/css/upload-video.css">
+  <link rel="stylesheet" href="/css/background.css">
+  <title>GreeCard</title>
 </head>
 
 <body>
   <div class="container">
-    <h1>Write on Image</h1>
+    <div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+
+    <h1 style="border: 6px solid;
+    display: block;
+    padding: 0.15em 0.65em;
+    scale: 0.75;
+    width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1.5em;">GreeCard</h1>
 
     <h3>
       <%= msg %>
     </h3>
 
     <form action="/" method="post" enctype="multipart/form-data">
-      <input type="file" accept="image/*" name="img" id="img" required />
+
+      <div id="upload-video" style="display: flex;" class="file-drop-area">
+        <span class="fake-btn">Choose files</span>
+        <span class="file-msg">or drag and drop files here</span>
+        <input class="file-input" type="file" accept="image/*" name="img" id="img" required />
+      </div>
+
       <br /><br />
-      <label for="name">Enter Name</label>
-      <input type="text" name="name" id="name" required />
+
+      <div>
+        <label for="name">Enter Name</label>
+        <input type="text" name="name" id="name" required />
+      </div>
       <br /><br />
-      <input type="submit" value="Submit" />
+      <input class="overlay__btn overlay__btn--colors" type="submit" value="Submit" />
     </form>
 
     <div class="image-preview" id="imagePreview">
@@ -74,6 +100,8 @@
       nameDefaultText.innerHTML = $(this).val();
     });
   </script>
+
+
 </body>
 
 </html>
