@@ -6,6 +6,10 @@ const flash = require("connect-flash");
 
 const multer = require("multer");
 const Jimp = require("jimp");
+
+const sizeOf = require('image-size');
+const dimensions = sizeOf('./public/imgs/design.jpeg');
+
 const storage = multer.diskStorage({
   destination: "./public/imgs/uploads/",
   filename: function(req, file, cb) {
