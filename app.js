@@ -67,6 +67,9 @@ if (app.get("env") === "production") {
 }
 
 app.get("/", (req, res) => {
+  res.render("landing", { msg: req.flash("info") });
+});
+app.get("/demo", (req, res) => {
   res.render("index", { msg: req.flash("info") });
 });
 
