@@ -12,7 +12,7 @@ const dimensions = sizeOf('./public/imgs/design.jpeg');
 
 const storage = multer.diskStorage({
   destination: "./public/imgs/uploads/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   }
 }).single("img");
