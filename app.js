@@ -15,7 +15,8 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      'result.jpeg'
+      // file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   }
 });
@@ -27,6 +28,7 @@ const upload = multer({
     checkFileType(file, cb);
   }
 }).single("img");
+
 
 function checkFileType(file, cb) {
   // Allowed ext
@@ -73,49 +75,52 @@ app.get("/demo", (req, res) => {
   res.render("index", { msg: req.flash("info") });
 });
 
-app.post("/", (req, res) => {
+app.post("/demo", (req, res) => {
+  req.flash("info", "successfull");
+  res.redirect("/imgs/uploads/result.jpeg");
 
-  upload(req, res, err => {
-    if (err) {
-      req.flash("info", "not successfull");
-      res.redirect("/");
-    } else {
+  // upload(req, res, err => {
+  //   if (err) {
+  //     req.flash("info", "not successfull");
+  //     res.redirect("/");
+  //   } else {
 
-      var imgPath = req.file.path;
-      // var imgPath = path.basename();
-      var imgCaption = req.body.name;
-      var loadedImage;
+  //     var imgPath = req.file.path;
+  //     console.log(imgPath);
+  //     var imgCaption = req.body.name;
+  //     var loadedImage;
 
-      Jimp.read(imgPath)
-        .then(function (image) {
-          loadedImage = image;
-          return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
-        })
-        .then(function (font) {
-          // var measureTextWidth = Jimp.measureTextWidth(font, imgCaption, 100);
-          // var measureTextHeight = Jimp.measureTextHeight(font, imgCaption, 100);
+  // Jimp.read(imgPath)
+  //   .then(function (image) {
+  //     loadedImage = image;
+  //     return Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+  //   })
+  //   .then(function (font) {
 
-          var textWidth = Jimp.measureText(font, imgCaption);
-          var textHeight = Jimp.measureTextHeight(font, imgCaption);
+  //     var textWidth = Jimp.measureText(font, imgCaption);
+  //     var textHeight = Jimp.measureTextHeight(font, imgCaption);
 
-          console.log({
-            width: loadedImage.bitmap.width,
-            height: loadedImage.bitmap.height,
-            textWidth, textHeight
-          });
+  //     console.log({
+  //       width: loadedImage.bitmap.width,
+  //       height: loadedImage.bitmap.height,
+  //       textWidth, textHeight
+  //     });
 
-          loadedImage.print(font,
-            ((loadedImage.bitmap.width / 2) - (textWidth / 2)),
-            ((loadedImage.bitmap.height / 2) - (textHeight / 2)), imgCaption).write(imgPath);
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
+  //     loadedImage.print(font,
+  //       ((loadedImage.bitmap.width / 2) - (textWidth / 2)),
+  //       ((loadedImage.bitmap.height / 2) - (textHeight / 2)), imgCaption).write(imgPath);
 
-      req.flash("info", "successfull");
-      res.redirect("/");
-    }
-  });
+  //   }).then(function () {
+  //     req.flash("info", "successfull");
+  //     res.redirect("/imgs/uploads/result.jpeg");
+  //   })
+  //   .catch(function (err) {
+  //     console.error(err);
+  //     req.flash("info", "failed");
+  //     res.redirect("/demo");
+  //   });
+  //   }
+  // });
 });
 
 app.listen(3000, console.log("Server: 3000"));

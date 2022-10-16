@@ -1,9 +1,9 @@
 var uploadDiv = document.getElementById("upload-video");
-var video = document.getElementById("video");
-var file = document.getElementById("file");
+var video = document.getElementById("image_toChange");
+var file = document.getElementById("img");
 
 var $droparea = $('#upload-video');
-var $fileInput = $('#file');
+var $fileInput = $('#img');
 
 $fileInput.on('dragenter focus click', function () {
     $droparea.addClass('drop-active');
@@ -17,15 +17,9 @@ $fileInput.on('dragleave blur drop', function () {
 function dropHandler(e) {
     e.preventDefault();
     [].forEach.call(e.dataTransfer.files, file => {
-        uploadDiv.style.display = 'none';
-        video.style.display = 'block';
-        video.src = '/video/video.mp4';
+        // $('#image_toChange').attr("src", "/imgs/design.jpeg")
     });
 }
 file.onchange = function (e) {
-    // console.log(this.files[0]);
-    // console.log(this.value);
-    uploadDiv.style.display = 'none';
-    video.style.display = 'block';
-    video.src = '/video/video.mp4';
+    // $('#image_toChange').attr("src", "/imgs/design.jpeg")
 };
